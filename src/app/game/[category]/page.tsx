@@ -17,6 +17,7 @@ import {
   TableCell,
   TableCaption,
 } from "@/components/ui/table"
+import { Progress } from "@/components/ui/progress"
 
 export default function GamePage() {
   const { category } = useParams<{ category: string }>();
@@ -131,8 +132,14 @@ export default function GamePage() {
                 {answerHistory.map((item, index) => (
                   <TableRow key={index}>
                     <TableCell>{item.answer}</TableCell>
-                    <TableCell>{item.score}</TableCell>
-                    <TableCell>{item.ranking}</TableCell>
+                    <TableCell>
+                      <Progress value={item.score * 100} />
+                      <span className="text-xs text-muted-foreground">{item.score.toFixed(2)}</span>
+                    </TableCell>
+                    <TableCell>
+                      <Progress value={100 - (item.ranking * 100 / 100)} />
+                      <span className="text-xs text-muted-foreground">{item.ranking}</span>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
