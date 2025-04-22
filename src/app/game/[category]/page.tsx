@@ -40,6 +40,13 @@ export default function GamePage() {
     fetchAutocompleteSuggestions();
   }, [answer, category]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent form submission if inside a form
+      handleSubmit();
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Similarity Game - {category}</h1>
@@ -47,15 +54,19 @@ export default function GamePage() {
       {/* Answer Input */}
       <div className="mb-4">
         <Label htmlFor="answer">Your Answer:</Label>
-        <div className="relative">
+        <div className="relative flex items-center">
           <Input
             type="text"
             id="answer"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="w-full"
             autoComplete="off"
           />
+          <Button onClick={handleSubmit} className="ml-2 bg-accent text-primary-foreground">
+            Submit Answer
+          </Button>
           {autocompleteSuggestions.length > 0 && (
             <ul className="absolute left-0 z-10 mt-1 w-full rounded-md border bg-popover shadow-md">
               {autocompleteSuggestions.map((suggestion) => (
@@ -74,9 +85,6 @@ export default function GamePage() {
           )}
         </div>
 
-        <Button onClick={handleSubmit} className="mt-2 bg-accent text-primary-foreground">
-          Submit Answer
-        </Button>
       </div>
 
       {/* Similarity Display */}
