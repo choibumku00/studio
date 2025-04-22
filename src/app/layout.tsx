@@ -1,6 +1,8 @@
 import type {Metadata} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import './globals.css';
+import {Button} from '@/components/ui/button';
+import Link from 'next/link';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,11 +24,36 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Mock user login state
+  const isLoggedIn = false;
+  const username = 'Player1';
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <header className="bg-secondary text-secondary-foreground p-4 flex justify-between items-center">
+          <Link href="/" className="text-2xl font-bold">Similarity Game</Link>
+          <div>
+            {isLoggedIn ? (
+              <div className="flex items-center space-x-4">
+                <span>{username}</span>
+                <Button variant="outline" size="sm">
+                  My Page
+                </Button>
+                <Button variant="outline" size="sm">
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Button variant="outline" size="sm">
+                Login
+              </Button>
+            )}
+          </div>
+        </header>
         {children}
       </body>
     </html>
   );
 }
+
