@@ -68,7 +68,7 @@ export default function GamePage() {
             Submit Answer
           </Button>
           {autocompleteSuggestions.length > 0 && (
-            <ul className="absolute left-0 z-10 mt-1 w-full rounded-md border bg-popover shadow-md">
+            <ul className="absolute left-0 top-full z-10 mt-1 w-full rounded-md border bg-popover shadow-md">
               {autocompleteSuggestions.map((suggestion) => (
                 <li
                   key={suggestion.answer}
