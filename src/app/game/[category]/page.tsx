@@ -31,7 +31,13 @@ export default function GamePage() {
   const handleSubmit = async () => {
     const result = await getSimilarity(answer, category);
     setSimilarityResult(result);
-    setAnswerHistory([...answerHistory, { answer, ...result }]);
+
+    // Check if the answer already exists in the history
+    const isDuplicate = answerHistory.some(item => item.answer === answer);
+
+    if (!isDuplicate) {
+      setAnswerHistory([...answerHistory, { answer, ...result }]);
+    }
     setAnswer(''); // Clear the input after submission
   };
 
@@ -123,6 +129,7 @@ export default function GamePage() {
               <TableCaption>A list of your previous answers.</TableCaption>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-[50px]">#</TableHead>
                   <TableHead className="w-[100px]">Answer</TableHead>
                   <TableHead>Score</TableHead>
                   <TableHead>Ranking</TableHead>
@@ -131,6 +138,7 @@ export default function GamePage() {
               <TableBody>
                 {answerHistory.map((item, index) => (
                   <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
                     <TableCell>{item.answer}</TableCell>
                     <TableCell>
                       <Progress value={item.score * 100} />
