@@ -8,8 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { List } from '@/components/ui/list';
-import { ListItem } from '@/components/ui/list';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+} from "@/components/ui/table"
 
 export default function GamePage() {
   const { category } = useParams<{ category: string }>();
@@ -111,13 +118,25 @@ export default function GamePage() {
             <h3 className="text-lg font-semibold">Answer History</h3>
           </CardHeader>
           <CardContent>
-            <List>
-              {answerHistory.map((item, index) => (
-                <ListItem key={index}>
-                  {item.answer} - Score: {item.score}, Ranking: {item.ranking}
-                </ListItem>
-              ))}
-            </List>
+            <Table>
+              <TableCaption>A list of your previous answers.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Answer</TableHead>
+                  <TableHead>Score</TableHead>
+                  <TableHead>Ranking</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {answerHistory.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{item.answer}</TableCell>
+                    <TableCell>{item.score}</TableCell>
+                    <TableCell>{item.ranking}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       )}
