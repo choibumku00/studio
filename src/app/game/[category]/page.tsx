@@ -36,7 +36,8 @@ export default function GamePage() {
     const isDuplicate = answerHistory.some(item => item.answer === answer);
 
     if (!isDuplicate) {
-      setAnswerHistory([...answerHistory, { answer, ...result }]);
+      setAnswerHistory(prevHistory => [...prevHistory, { answer, ...result }]
+        .sort((a, b) => a.ranking - b.ranking));
     }
     setAnswer(''); // Clear the input after submission
   };
@@ -158,3 +159,4 @@ export default function GamePage() {
     </div>
   );
 }
+
