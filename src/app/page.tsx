@@ -1,136 +1,73 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getSimilarity, getAutocomplete, Answer } from '@/services/similarity';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { List } from '@/components/ui/list';
-import { ListItem } from '@/components/ui/list';
+import Link from 'next/link';
 
-const categories = ['flags', 'actors', 'words'];
+const categories = [
+  {
+    name: 'flags',
+    image: 'https://picsum.photos/400/300?random=1',
+    description: 'Test your knowledge of national flags.',
+  },
+  {
+    name: 'actors',
+    image: 'https://picsum.photos/400/300?random=2',
+    description: 'Identify actors from their photos.',
+  },
+  {
+    name: 'words',
+    image: 'https://picsum.photos/400/300?random=3',
+    description: 'Find similar words.',
+  },
+  {
+    name: 'category4',
+    image: 'https://picsum.photos/400/300?random=4',
+    description: 'Description for category 4.',
+  },
+  {
+    name: 'category5',
+    image: 'https://picsum.photos/400/300?random=5',
+    description: 'Description for category 5.',
+  },
+  {
+    name: 'category6',
+    image: 'https://picsum.photos/400/300?random=6',
+    description: 'Description for category 6.',
+  },
+  {
+    name: 'category7',
+    image: 'https://picsum.photos/400/300?random=7',
+    description: 'Description for category 7.',
+  },
+  {
+    name: 'category8',
+    image: 'https://picsum.photos/400/300?random=8',
+    description: 'Description for category 8.',
+  },
+];
 
 export default function Home() {
-  const [category, setCategory] = useState(categories[0]);
-  const [answer, setAnswer] = useState('');
-  const [similarityResult, setSimilarityResult] = useState<{ score: number; ranking: number } | null>(null);
-  const [answerHistory, setAnswerHistory] = useState<
-    { answer: string; score: number; ranking: number }[]
-  >([]);
-    const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<Answer[]>([]);
-
-  const handleSubmit = async () => {
-    const result = await getSimilarity(answer, category);
-    setSimilarityResult(result);
-    setAnswerHistory([...answerHistory, { answer, ...result }]);
-    setAnswer(''); // Clear the input after submission
-  };
-
-    useEffect(() => {
-        const fetchAutocompleteSuggestions = async () => {
-            if (answer.length > 0) {
-                const suggestions = await getAutocomplete(answer, category);
-                setAutocompleteSuggestions(suggestions);
-            } else {
-                setAutocompleteSuggestions([]);
-            }
-        };
-
-        fetchAutocompleteSuggestions();
-    }, [answer, category]);
-
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Similarity Game</h1>
 
-      {/* Category Selection */}
-      <div className="mb-4">
-        <Label>Select Category:</Label>
-        <div className="flex gap-2 mt-2">
-          {categories.map((cat) => (
-            <Button
-              key={cat}
-              variant={category === cat ? 'primary' : 'secondary'}
-              onClick={() => setCategory(cat)}
-            >
-              {cat}
-            </Button>
-          ))}
-        </div>
+      {/* Category Selection with Images */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {categories.map((cat) => (
+          <Link key={cat.name} href={`/game/${cat.name}`} className="block">
+            <div className="relative rounded-md shadow-md overflow-hidden transition-transform hover:scale-105">
+              <img
+                src={cat.image}
+                alt={cat.name}
+                className="w-full h-48 object-cover"
+              />
+              <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                <h2 className="text-lg font-semibold text-white">{cat.name}</h2>
+              </div>
+            </div>
+            <p className="text-sm mt-2">{cat.description}</p>
+          </Link>
+        ))}
       </div>
-
-      {/* Answer Input */}
-      <div className="mb-4">
-        <Label htmlFor="answer">Your Answer:</Label>
-        <div className="relative">
-            <Input
-                type="text"
-                id="answer"
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                className="w-full"
-                autoComplete="off"
-            />
-            {autocompleteSuggestions.length > 0 && (
-                <ul className="absolute left-0 z-10 mt-1 w-full rounded-md border bg-popover shadow-md">
-                    {autocompleteSuggestions.map((suggestion) => (
-                        <li
-                            key={suggestion.answer}
-                            className="px-4 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
-                            onClick={() => {
-                                setAnswer(suggestion.answer);
-                                setAutocompleteSuggestions([]);
-                            }}
-                        >
-                            {suggestion.answer}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-
-        <Button onClick={handleSubmit} className="mt-2 bg-accent text-primary-foreground">
-          Submit Answer
-        </Button>
-      </div>
-
-      {/* Similarity Display */}
-      {similarityResult && (
-        <Card className="mb-4">
-          <CardHeader>
-            <h3 className="text-lg font-semibold">Similarity Result</h3>
-          </CardHeader>
-          <CardContent>
-            <p>
-              Similarity Score: <Badge>{similarityResult.score}</Badge>
-            </p>
-            <p>
-              Ranking: <Badge>{similarityResult.ranking}</Badge>
-            </p>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Answer History */}
-      {answerHistory.length > 0 && (
-        <Card>
-          <CardHeader>
-            <h3 className="text-lg font-semibold">Answer History</h3>
-          </CardHeader>
-          <CardContent>
-            <List>
-              {answerHistory.map((item, index) => (
-                <ListItem key={index}>
-                  {item.answer} - Score: {item.score}, Ranking: {item.ranking}
-                </ListItem>
-              ))}
-            </List>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 }
