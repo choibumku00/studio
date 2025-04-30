@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const categories = [
   {
-    name: 'flags',
+    name: 'flag',
     image: 'https://picsum.photos/400/300?random=1',
     description: 'Test your knowledge of national flags.',
   },
