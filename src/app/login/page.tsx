@@ -1,15 +1,22 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Chrome } from 'lucide-react'; // Using Chrome icon as a stand-in for Google icon
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 
 export default function LoginPage() {
-  const handleGoogleSignIn = () => {
-    // In a real application, this would trigger the Firebase Google Auth flow
-    console.log('Attempting Google Sign-In...');
-    // Replace with actual redirect or popup logic
-    alert('Redirecting to Google Sign-In (Placeholder)');
+
+  const handleLoginSuccess = (credentialResponse: CredentialResponse) => {
+    console.log('Google Login Success:', credentialResponse);
+    // Here you would typically send the credentialResponse.credential (JWT token)
+    // to your backend (e.g., AWS Lambda) for verification and user session creation.
+    alert('Login successful! Check console for details. (Placeholder)');
+    // Example: await verifyTokenOnBackend(credentialResponse.credential);
+    // Redirect user or update UI state upon successful backend verification
+  };
+
+  const handleLoginError = () => {
+    console.error('Google Login Failed');
+    alert('Login failed. Please try again.');
   };
 
   return (
@@ -20,10 +27,14 @@ export default function LoginPage() {
           <CardDescription>Sign in to save your progress and compete!</CardDescription>
         </CardHeader>
         <CardContent className="flex justify-center">
-          <Button onClick={handleGoogleSignIn} className="w-full max-w-xs bg-primary text-primary-foreground hover:bg-primary/90">
-            <Chrome className="mr-2 h-4 w-4" /> {/* Using Chrome icon */}
-            Sign in with Google
-          </Button>
+          <GoogleLogin
+            onSuccess={handleLoginSuccess}
+            onError={handleLoginError}
+            useOneTap // Optional: Enables One Tap sign-in experience
+            shape="pill" // Makes the button pill-shaped
+            theme="filled_blue" // Uses a blue theme consistent with the app
+            size="large" // Makes the button larger
+          />
         </CardContent>
          <CardFooter className="text-center text-xs text-muted-foreground">
             By signing in, you agree to our Terms of Service.
