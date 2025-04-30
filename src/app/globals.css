@@ -4,77 +4,150 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
+main {
+  flex-grow: 1;
+}
+
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 210 83.3% 47.1%;
-    --primary-foreground: 210 100% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 142.9 57.1% 45.1%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    /* Calming Blue */
+    --primary-hsl: 207 75% 55%; /* Adjusted #3498db to HSL */
+    --primary-foreground-hsl: 210 40% 98%;
+
+    /* Light Gray */
+    --secondary-hsl: 210 16% 93%; /* Adjusted #ecf0f1 to HSL */
+    --secondary-foreground-hsl: 210 4% 16%;
+    --background-hsl: 0 0% 100%; /* White background */
+    --foreground-hsl: 210 4% 16%; /* Dark text */
+
+
+    /* Vibrant Green */
+    --accent-hsl: 145 63% 49%; /* Adjusted #2ecc71 to HSL */
+    --accent-foreground-hsl: 0 0% 98%; /* White text on accent */
+
+
+    --card-hsl: var(--background-hsl);
+    --card-foreground-hsl: var(--foreground-hsl);
+
+    --popover-hsl: var(--background-hsl);
+    --popover-foreground-hsl: var(--foreground-hsl);
+
+    --muted-hsl: var(--secondary-hsl);
+    --muted-foreground-hsl: 210 4% 45%; /* Slightly darker muted text */
+
+    --destructive-hsl: 0 84% 60%;
+    --destructive-foreground-hsl: 0 0% 98%;
+
+    --border-hsl: 210 10% 85%; /* Lighter border */
+    --input-hsl: 210 10% 85%;
+    --ring-hsl: var(--primary-hsl); /* Use primary for focus rings */
+
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --sidebar-background: 210 20% 98%; /* Slightly off-white sidebar */
+    --sidebar-foreground: 210 4% 16%;
+    --sidebar-primary: var(--primary-hsl);
+    --sidebar-primary-foreground: var(--primary-foreground-hsl);
+    --sidebar-accent: 210 16% 90%;
+    --sidebar-accent-foreground: 210 4% 10%;
+    --sidebar-border: 210 10% 85%;
+    --sidebar-ring: var(--primary-hsl);
+
+    --header-height: 4rem; /* Define header height variable */
+
+    /* Assign HSL values to CSS variables */
+    --background: hsl(var(--background-hsl));
+    --foreground: hsl(var(--foreground-hsl));
+    --card: hsl(var(--card-hsl));
+    --card-foreground: hsl(var(--card-foreground-hsl));
+    --popover: hsl(var(--popover-hsl));
+    --popover-foreground: hsl(var(--popover-foreground-hsl));
+    --primary: hsl(var(--primary-hsl));
+    --primary-foreground: hsl(var(--primary-foreground-hsl));
+    --secondary: hsl(var(--secondary-hsl));
+    --secondary-foreground: hsl(var(--secondary-foreground-hsl));
+    --muted: hsl(var(--muted-hsl));
+    --muted-foreground: hsl(var(--muted-foreground-hsl));
+    --accent: hsl(var(--accent-hsl));
+    --accent-foreground: hsl(var(--accent-foreground-hsl));
+    --destructive: hsl(var(--destructive-hsl));
+    --destructive-foreground: hsl(var(--destructive-foreground-hsl));
+    --border: hsl(var(--border-hsl));
+    --input: hsl(var(--input-hsl));
+    --ring: hsl(var(--ring-hsl));
   }
+
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 210 100% 98%;
-    --primary-foreground: 210 83.3% 47.1%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 142.9 57.1% 45.1%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Define dark mode colors if needed, inverting or adjusting the light theme */
+    --background-hsl: 210 10% 15%; /* Dark background */
+    --foreground-hsl: 210 40% 98%; /* Light text */
+
+    --primary-hsl: 207 75% 65%; /* Lighter blue for dark mode */
+    --primary-foreground-hsl: 210 10% 15%;
+
+    --secondary-hsl: 210 10% 25%; /* Darker gray */
+    --secondary-foreground-hsl: 210 40% 98%;
+
+    --accent-hsl: 145 63% 59%; /* Slightly brighter green */
+    --accent-foreground-hsl: 210 10% 15%;
+
+    --card-hsl: 210 10% 20%;
+    --card-foreground-hsl: 210 40% 98%;
+
+    --popover-hsl: 210 10% 20%;
+    --popover-foreground-hsl: 210 40% 98%;
+
+    --muted-hsl: 210 10% 25%;
+    --muted-foreground-hsl: 210 40% 70%;
+
+    --destructive-hsl: 0 70% 50%;
+    --destructive-foreground-hsl: 0 0% 98%;
+
+    --border-hsl: 210 10% 30%;
+    --input-hsl: 210 10% 30%;
+    --ring-hsl: var(--primary-hsl);
+
+    --sidebar-background: 210 10% 18%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: var(--primary-hsl);
+    --sidebar-primary-foreground: var(--primary-foreground-hsl);
+    --sidebar-accent: 210 10% 30%;
+    --sidebar-accent-foreground: 210 40% 95%;
+    --sidebar-border: 210 10% 25%;
+    --sidebar-ring: var(--primary-hsl);
+
+     /* Assign HSL values to CSS variables */
+    --background: hsl(var(--background-hsl));
+    --foreground: hsl(var(--foreground-hsl));
+    --card: hsl(var(--card-hsl));
+    --card-foreground: hsl(var(--card-foreground-hsl));
+    --popover: hsl(var(--popover-hsl));
+    --popover-foreground: hsl(var(--popover-foreground-hsl));
+    --primary: hsl(var(--primary-hsl));
+    --primary-foreground: hsl(var(--primary-foreground-hsl));
+    --secondary: hsl(var(--secondary-hsl));
+    --secondary-foreground: hsl(var(--secondary-foreground-hsl));
+    --muted: hsl(var(--muted-hsl));
+    --muted-foreground: hsl(var(--muted-foreground-hsl));
+    --accent: hsl(var(--accent-hsl));
+    --accent-foreground: hsl(var(--accent-foreground-hsl));
+    --destructive: hsl(var(--destructive-hsl));
+    --destructive-foreground: hsl(var(--destructive-foreground-hsl));
+    --border: hsl(var(--border-hsl));
+    --input: hsl(var(--input-hsl));
+    --ring: hsl(var(--ring-hsl));
   }
 }
 
@@ -85,5 +158,18 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-}
+  /* Add rounded corners and shadows to elements for a professional feel */
+  .card, .btn, .input, .popover, .dialog-content, .sheet-content {
+    @apply rounded-lg shadow-md;
+  }
+   .button {
+      @apply rounded-md shadow; /* Example */
+   }
 
+   .input {
+       @apply rounded-md shadow-inner; /* Example */
+   }
+   .card {
+       @apply rounded-lg border shadow-lg; /* Example */
+   }
+}
